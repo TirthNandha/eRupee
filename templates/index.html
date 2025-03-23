@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Account 1</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>Address:</strong> <code>{{ account1_address }}</code></p>
+                <p><strong>Total Balance:</strong> {{ account1_balance }} eRupee</p>
+                
+                <h6 class="mt-3">Coins by Denomination:</h6>
+                {% for denomination, coins in account1_coins.items() %}
+                    {% if coins %}
+                    <div class="mb-2">
+                        <strong>{{ denomination }} eRupee coins:</strong>
+                        <ul class="list-unstyled ms-3">
+                            {% for coin in coins %}
+                            <li><small><code>Serial: {{ coin.serial }}</code></small></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+
+                <form action="{{ url_for('add_funds') }}" method="POST" class="mt-3">
+                    <input type="hidden" name="account" value="{{ account1_address }}">
+                    <div class="input-group">
+                        <input type="number" step="1" class="form-control" name="amount" placeholder="Amount to add" required>
+                        <button type="submit" class="btn btn-success">Add Funds</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Account 2</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>Address:</strong> <code>{{ account2_address }}</code></p>
+                <p><strong>Total Balance:</strong> {{ account2_balance }} eRupee</p>
+                
+                <h6 class="mt-3">Coins by Denomination:</h6>
+                {% for denomination, coins in account2_coins.items() %}
+                    {% if coins %}
+                    <div class="mb-2">
+                        <strong>{{ denomination }} eRupee coins:</strong>
+                        <ul class="list-unstyled ms-3">
+                            {% for coin in coins %}
+                            <li><small><code>Serial: {{ coin.serial }}</code></small></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+
+                <form action="{{ url_for('add_funds') }}" method="POST" class="mt-3">
+                    <input type="hidden" name="account" value="{{ account2_address }}">
+                    <div class="input-group">
+                        <input type="number" step="1" class="form-control" name="amount" placeholder="Amount to add" required>
+                        <button type="submit" class="btn btn-success">Add Funds</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card mt-4">
+    <div class="card-header">
+        <h5 class="card-title mb-0">Send eRupee</h5>
+    </div>
+    <div class="card-body">
+        <form action="{{ url_for('send') }}" method="POST">
+            <div class="mb-3">
+                <label for="sender" class="form-label">Sender</label>
+                <select class="form-select" id="sender" name="sender" required>
+                    <option value="{{ account1_address }}">Account 1 ({{ account1_balance }} eRupee)</option>
+                    <option value="{{ account2_address }}">Account 2 ({{ account2_balance }} eRupee)</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="recipient" class="form-label">Recipient</label>
+                <select class="form-select" id="recipient" name="recipient" required>
+                    <option value="{{ account2_address }}">Account 2</option>
+                    <option value="{{ account1_address }}">Account 1</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="amount" class="form-label">Amount (eRupee)</label>
+                <input type="number" step="1" class="form-control" id="amount" name="amount" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Send</button>
+        </form>
+    </div>
+</div>
+
+<div class="card mt-4">
+    <div class="card-header">
+        <h5 class="card-title mb-0">Quick Actions</h5>
+    </div>
+    <div class="card-body">
+        <a href="{{ url_for('transactions') }}" class="btn btn-secondary">View Transaction History</a>
+    </div>
+</div>
+{% endblock %} 
