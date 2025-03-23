@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Account 1 Transactions</h5>
+            </div>
+            <div class="card-body">
+                <div class="transaction-history">
+                    {% if account1_history %}
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Type</th>
+                                    <th>Amount</th>
+                                    <th>Coins</th>
+                                    <th>Counterparty</th>
+                                    <th>Block</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for tx in account1_history %}
+                                <tr>
+                                    <td>
+                                        <span class="badge {% if tx.type == 'sent' %}bg-danger{% else %}bg-success{% endif %}">
+                                            {{ tx.type }}
+                                        </span>
+                                    </td>
+                                    <td>{{ tx.amount }} eRupee</td>
+                                    <td>
+                                        <small>
+                                            {% for coin in tx.coins %}
+                                            <div><code>{{ coin.denomination }}eR: {{ coin.serial }}</code></div>
+                                            {% endfor %}
+                                        </small>
+                                    </td>
+                                    <td><code>{{ tx.counterparty }}</code></td>
+                                    <td>{{ tx.block_index }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <p class="text-muted">No transactions found</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Account 2 Transactions</h5>
+            </div>
+            <div class="card-body">
+                <div class="transaction-history">
+                    {% if account2_history %}
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Type</th>
+                                    <th>Amount</th>
+                                    <th>Coins</th>
+                                    <th>Counterparty</th>
+                                    <th>Block</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for tx in account2_history %}
+                                <tr>
+                                    <td>
+                                        <span class="badge {% if tx.type == 'sent' %}bg-danger{% else %}bg-success{% endif %}">
+                                            {{ tx.type }}
+                                        </span>
+                                    </td>
+                                    <td>{{ tx.amount }} eRupee</td>
+                                    <td>
+                                        <small>
+                                            {% for coin in tx.coins %}
+                                            <div><code>{{ coin.denomination }}eR: {{ coin.serial }}</code></div>
+                                            {% endfor %}
+                                        </small>
+                                    </td>
+                                    <td><code>{{ tx.counterparty }}</code></td>
+                                    <td>{{ tx.block_index }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <p class="text-muted">No transactions found</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
